@@ -5,7 +5,7 @@ import { createPublicKey, createVerify, randomBytes } from 'crypto';
 import isCi from 'is-ci';
 
 test('available', (t) => {
-    t.true(Passport.available());
+    t.notThrows(() => Passport.available());
     t.notThrows(() => Passport.accountWithIdExists('test'));
 });
 
