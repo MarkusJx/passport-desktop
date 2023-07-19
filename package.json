@@ -1,0 +1,63 @@
+{
+    "name": "ms-passport",
+    "version": "0.1.0",
+    "main": "index.js",
+    "types": "index.d.ts",
+    "description": "A Node.js addon for enabling Client-side Windows Hello using Microsoft Passport",
+    "keywords": ["Windows Hello", "Microsoft Passport"],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/MarkusJx/ms-passport.git"
+    },
+    "author": {
+        "name": "MarkusJx",
+        "url": "https://github.com/MarkusJx"
+    },
+    "napi": {
+        "name": "ms-passport",
+        "triples": {
+            "defaults": false,
+            "additional": [
+                "x86_64-pc-windows-msvc",
+                "i686-pc-windows-msvc"
+            ]
+        }
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "@napi-rs/cli": "^2.14.8",
+        "@types/node": "^20.4.2",
+        "ava": "^5.1.1",
+        "prettier": "^3.0.0",
+        "tsx": "^3.12.7"
+    },
+    "ava": {
+        "timeout": "3m",
+        "extensions": {
+            "ts": "module"
+        },
+        "nodeArguments": [
+            "--loader=tsx"
+        ]
+    },
+    "engines": {
+        "node": ">= 10"
+    },
+    "scripts": {
+        "artifacts": "napi artifacts",
+        "build": "napi build --platform --release",
+        "build:debug": "napi build --platform",
+        "prepublishOnly": "napi prepublish -t npm",
+        "test": "ava",
+        "universal": "napi universal",
+        "version": "napi version",
+        "format": "prettier --write ."
+    },
+    "prettier": {
+        "printWidth": 80,
+        "semi": true,
+        "singleQuote": true,
+        "tabWidth": 4,
+        "trailingComma": "es5"
+    }
+}
