@@ -15,7 +15,11 @@ jobs:
 
         strategy:
             matrix:
-                arch: [x86_64, i686]
+                include:
+                    - target: x86_64-pc-windows-msvc
+                      arch: x64
+                    - target: i686-pc-windows-msvc
+                      arch: x86
 
         steps:
             - uses: actions/checkout@v3
@@ -24,9 +28,12 @@ jobs:
               with:
                   node-version: 18.x
                   cache: 'npm'
+                  architecture: ${{matrix.arch}}
             - name: Rust Cache
               uses: Swatinem/rust-cache@v2.5.1
-            - run: npm ci
-            - run: npm run build -- --target ${{ matrix.arch }}-pc-windows-msvc
+            - name: Install Dependencies
+              run: npm ci
+            - name: Build
+              run: npm run build -- --target ${{matrix.target}}
             - name: Test
               run: npm test
