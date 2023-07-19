@@ -1,26 +1,32 @@
 name: Build
 
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    push:
+        branches: ['master']
+    pull_request:
 
 jobs:
-  build:
+    build:
+        runs-on: windows-latest
 
-    runs-on: windows-latest
+        strategy:
+            matrix:
+                arch: [x86_64, i686]
 
-    strategy:
-      matrix:
-        arch: [x86_64, i686]
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js 18
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18.x
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build -- --target ${{ matrix.arch }}-pc-windows-msvc
+        steps:
+            - uses: actions/checkout@v3
+            - name: Use Node.js 18
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18.x
+                  cache: 'npm'
+            - name: Rust Cache
+              uses: Swatinem/rust-cache@v2.5.1
+            - run: npm ci
+            - run: npm run build -- --target ${{ matrix.arch }}-pc-windows-msvc
+            - name: Test
+              run: npm test

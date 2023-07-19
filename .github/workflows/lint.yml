@@ -1,0 +1,34 @@
+name: Lint
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+
+jobs:
+    lint-ts:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: Setup Node.js environment
+              uses: actions/setup-node@v3.6.0
+              with:
+                  node-version: 16.x
+            - name: Install Prettier
+              run: npm i -g prettier
+            - name: Prettier check
+              run: prettier --check .
+
+    lint-rust:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: Check style
+              run: cargo fmt -- --check
+            - name: Clippy
+              run: cargo clippy

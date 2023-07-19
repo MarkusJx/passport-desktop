@@ -4,7 +4,10 @@
     "main": "index.js",
     "types": "index.d.ts",
     "description": "A Node.js addon for enabling Client-side Windows Hello using Microsoft Passport",
-    "keywords": ["Windows Hello", "Microsoft Passport"],
+    "keywords": [
+        "Windows Hello",
+        "Microsoft Passport"
+    ],
     "repository": {
         "type": "git",
         "url": "https://github.com/MarkusJx/ms-passport.git"
@@ -26,8 +29,10 @@
     "license": "MIT",
     "devDependencies": {
         "@napi-rs/cli": "^2.14.8",
+        "@types/is-ci": "^3.0.0",
         "@types/node": "^20.4.2",
         "ava": "^5.1.1",
+        "is-ci": "^3.0.1",
         "prettier": "^3.0.0",
         "tsx": "^3.12.7"
     },

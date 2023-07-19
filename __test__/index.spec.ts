@@ -2,8 +2,19 @@ import test from 'ava';
 
 import { KeyCreationOption, Passport, VerificationResult } from '../.';
 import { createPublicKey, createVerify, randomBytes } from 'crypto';
+import isCi from 'is-ci';
+
+test('available', (t) => {
+    t.true(Passport.available());
+    t.notThrows(() => Passport.accountWithIdExists('test'));
+});
 
 test('sign and verify', async (t) => {
+    if (isCi) {
+        t.pass('Skipping test in CI');
+        return;
+    }
+
     t.true(Passport.available());
 
     t.is(

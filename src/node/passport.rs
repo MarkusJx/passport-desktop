@@ -180,11 +180,6 @@ impl Passport {
             return Err(napi::Error::from_credential_status(status));
         }
 
-        println!(
-            "res len: {}",
-            res.Result().map_napi_error()?.Length().map_napi_error()?
-        );
-
         Buffer::from_win_buffer(res.Result().map_napi_error()?).map_napi_error()
     }
 
