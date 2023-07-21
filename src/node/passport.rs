@@ -20,8 +20,8 @@ use windows::Security::Cryptography::Core::CryptographicPublicKeyBlobType;
 ///
 /// # Example
 /// ```ts
-/// import { Passport, PublicKeyEncoding, KeyCreationOption } from 'node-ms-passport';
-/// import { randomBytes } from 'crypto';
+/// import { Passport, PublicKeyEncoding, KeyCreationOption } from 'ms-passport';
+/// import { randomBytes, createPublicKey, createVerify } from 'node:crypto';
 ///
 /// if (!Passport.available()) {
 ///   throw new Error('Windows Hello is not available');
@@ -70,7 +70,7 @@ impl Passport {
     ///
     /// # Example
     /// ```ts
-    /// import { Passport } from 'node-ms-passport';
+    /// import { Passport } from 'ms-passport';
     ///
     /// const passport = new Passport('my-account-id');
     /// ```
@@ -91,7 +91,7 @@ impl Passport {
     ///
     /// # Example
     /// ```ts
-    /// import { Passport, KeyCreationOption } from 'node-ms-passport';
+    /// import { Passport, KeyCreationOption } from 'ms-passport';
     ///
     /// const passport = new Passport('my-account-id');
     /// await passport.createAccount(KeyCreationOption.FailIfExists);
@@ -127,8 +127,8 @@ impl Passport {
     ///
     /// # Example
     /// ```ts
-    /// import { Passport, PublicKeyEncoding } from 'node-ms-passport';
-    /// import { randomBytes, createPublicKey, createVerify } from 'crypto';
+    /// import { Passport, PublicKeyEncoding } from 'ms-passport';
+    /// import { randomBytes, createPublicKey, createVerify } from 'node:crypto';
     ///
     /// const passport = new Passport('my-account-id');
     /// // Create the key pair
@@ -209,8 +209,8 @@ impl Passport {
     ///
     /// # Example
     /// ```ts
-    /// import { Passport, PublicKeyEncoding } from 'node-ms-passport';
-    /// import { createPublicKey } from 'crypto';
+    /// import { Passport, PublicKeyEncoding } from 'ms-passport';
+    /// import { createPublicKey } from 'node:crypto';
     ///
     /// const passport = new Passport('my-account-id');
     /// // Create the key pair
@@ -306,7 +306,7 @@ impl Passport {
     ///
     /// # Example
     /// ```ts
-    /// import { Passport, VerificationResult } from 'node-ms-passport';
+    /// import { Passport, VerificationResult } from 'ms-passport';
     ///
     /// const result = await Passport.requestVerification('Please verify your identity');
     /// if (result === VerificationResult.Verified) {
