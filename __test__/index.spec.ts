@@ -5,6 +5,11 @@ import { createPublicKey, createVerify, randomBytes } from 'crypto';
 import isCi from 'is-ci';
 
 test('available', (t) => {
+    if (process.platform !== 'win32') {
+        t.pass('Skipping test on non-Windows');
+        return;
+    }
+
     t.notThrows(() => Passport.available());
     t.notThrows(() => Passport.accountWithIdExists('test'));
 });
@@ -12,6 +17,9 @@ test('available', (t) => {
 test('sign and verify', async (t) => {
     if (isCi) {
         t.pass('Skipping test in CI');
+        return;
+    } else if (process.platform !== 'win32') {
+        t.pass('Skipping test on non-Windows');
         return;
     }
 
@@ -47,4 +55,20 @@ test('sign and verify', async (t) => {
     await passport.deleteAccount();
     t.false(passport.accountExists);
     t.false(Passport.accountWithIdExists('test'));
+});
+
+test('check exceptions', (t) => {
+    if (process.platform === 'win32') {
+        t.pass('Skipping test on Windows');
+        return;
+    }
+
+    const MODULE_NOT_FOUND = {
+        code: 'MODULE_NOT_FOUND',
+        message: /^Cannot find module '.+'$/m,
+    };
+
+    t.throws(() => new Passport('test'), MODULE_NOT_FOUND);
+    t.throws(() => Passport.accountWithIdExists('test'), MODULE_NOT_FOUND);
+    t.throws(() => Passport.requestVerification('test'), MODULE_NOT_FOUND);
 });

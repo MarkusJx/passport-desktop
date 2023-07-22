@@ -199,3 +199,5 @@ Cargo.lock
 index.d.ts
 index.js
 docs/
+native.js
+native.d.ts

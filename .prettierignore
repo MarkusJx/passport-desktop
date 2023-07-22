@@ -4,3 +4,5 @@
 index.js
 index.d.ts
 docs/
+native.js
+native.d.ts
