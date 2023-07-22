@@ -38,6 +38,7 @@ jobs:
             - name: Test
               run: npm test
             - uses: actions/upload-artifact@v3
+              if: ${{matrix.arch == 'x64'}}
               with:
                   name: native
                   path: |
