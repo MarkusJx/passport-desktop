@@ -47,7 +47,7 @@ jobs:
               run: mv ms-passport.*.node npm/${{matrix.package}}
               shell: bash
             - name: NPM Publish Binary
-              uses: JS-DevTools/npm-publish@v1
+              uses: JS-DevTools/npm-publish@v2.2.1
               if: ${{!matrix.publish}}
               with:
                   access: public
@@ -55,7 +55,7 @@ jobs:
                   package: npm/${{matrix.package}}/package.json
                   dry-run: ${{github.event.inputs.dry-run == 'true'}}
             - name: NPM Publish
-              uses: JS-DevTools/npm-publish@v1
+              uses: JS-DevTools/npm-publish@v2.2.1
               if: ${{matrix.publish}}
               with:
                   access: public
