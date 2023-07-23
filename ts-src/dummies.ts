@@ -12,14 +12,19 @@ type OmitPrototype<
 > = IsClass extends true ? Omit<IndexTypes[Key], 'prototype'> : IndexTypes[Key];
 
 type AnyFunction = (...args: any[]) => any;
+type Constructor = new (...args: any[]) => any;
 type OverrideFunction<T> = T extends AnyFunction
     ? (...args: Parameters<T>) => ReturnType<T>
     : AnyFunction;
 
-type DummyRecord<Key extends IndexKeys, IsClass extends boolean, T> = Record<
-    keyof OmitPrototype<Key, IsClass>,
-    T
->;
+type DummyRecord<Key extends IndexKeys, IsClass extends boolean> = {
+    [key in keyof OmitPrototype<Key, IsClass>]: OmitPrototype<
+        Key,
+        IsClass
+    >[key] extends AnyFunction
+        ? DummyType.Function
+        : DummyType.Getter;
+};
 
 type DummyOverride<Key extends IndexKeys, IsClass extends boolean> = {
     [key in keyof OmitPrototype<Key, IsClass>]?: OverrideFunction<
@@ -27,17 +32,30 @@ type DummyOverride<Key extends IndexKeys, IsClass extends boolean> = {
     >;
 };
 
-interface DummyOptions<Key extends IndexKeys, IsClass extends boolean> {
+type DummyIsClass<Key extends IndexKeys> = IndexTypes[Key] extends Constructor
+    ? {
+          isClass: true;
+      }
+    : {
+          isClass?: false;
+      };
+
+interface DummyOpts<Key extends IndexKeys, IsClass extends boolean> {
     key: Key;
-    isClass?: IsClass;
-    dummies: DummyRecord<Key, IsClass, DummyType>;
+    dummies: DummyRecord<Key, IsClass>;
     overrides?: DummyOverride<Key, IsClass>;
 }
 
 type DummyOptsKeys<
     Key extends IndexKeys,
     IsClass extends boolean,
-> = keyof DummyOptions<Key, IsClass>['dummies'];
+> = keyof DummyOpts<Key, IsClass>['dummies'];
+
+type DummyOptions<Key extends IndexKeys, IsClass extends boolean> = DummyOpts<
+    Key,
+    IsClass
+> &
+    DummyIsClass<Key>;
 
 export function createDummy<Key extends IndexKeys, IsClass extends boolean>(
     opts: DummyOptions<Key, IsClass>
