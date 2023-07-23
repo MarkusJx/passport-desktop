@@ -13,9 +13,10 @@ type OmitPrototype<
 
 type AnyFunction = (...args: any[]) => any;
 type Constructor = new (...args: any[]) => any;
+
 type OverrideFunction<T> = T extends AnyFunction
     ? (...args: Parameters<T>) => ReturnType<T>
-    : AnyFunction;
+    : () => T;
 
 type DummyRecord<Key extends IndexKeys, IsClass extends boolean> = {
     [key in keyof OmitPrototype<Key, IsClass>]: OmitPrototype<
@@ -57,7 +58,7 @@ type DummyOptions<Key extends IndexKeys, IsClass extends boolean> = DummyOpts<
 > &
     DummyIsClass<Key>;
 
-export function createDummy<Key extends IndexKeys, IsClass extends boolean>(
+function createDummy<Key extends IndexKeys, IsClass extends boolean>(
     opts: DummyOptions<Key, IsClass>
 ): Readonly<IndexTypes[Key]> {
     try {
@@ -89,6 +90,7 @@ export function createDummy<Key extends IndexKeys, IsClass extends boolean>(
                                 ...args: Parameters<IndexTypes[Key][typeof cur]>
                             ) => {
                                 if (opts.overrides && opts.overrides[cur]) {
+                                    // @ts-expect-error
                                     return opts.overrides[cur]!(...args);
                                 } else {
                                     throw e;
@@ -101,4 +103,26 @@ export function createDummy<Key extends IndexKeys, IsClass extends boolean>(
             )
         );
     }
+}
+
+type DummiesOptions = {
+    [key in IndexKeys]: Omit<
+        DummyOptions<key, IndexTypes[key] extends Constructor ? true : false>,
+        'key'
+    >;
+};
+
+export function createDummies(obj: DummiesOptions): Readonly<IndexTypes> {
+    return Object.freeze(
+        (Object.keys(obj) as IndexKeys[]).reduce((prev, cur) => {
+            return {
+                ...prev,
+                // @ts-expect-error
+                [cur]: createDummy({
+                    key: cur,
+                    ...obj[cur],
+                }),
+            };
+        }, {})
+    ) as IndexTypes;
 }
