@@ -48,7 +48,7 @@ jobs:
               shell: bash
             - name: NPM Publish Binary
               uses: JS-DevTools/npm-publish@v1
-              if: ${{ matrix.publish == 'false' }}
+              if: ${{matrix.publish}}
               with:
                   access: public
                   token: ${{secrets.NPM_TOKEN}}
@@ -56,7 +56,7 @@ jobs:
                   dry-run: ${{github.event.inputs.dry-run == 'true'}}
             - name: NPM Publish
               uses: JS-DevTools/npm-publish@v1
-              if: ${{matrix.publish == 'true'}}
+              if: ${{!matrix.publish}}
               with:
                   access: public
                   token: ${{secrets.NPM_TOKEN}}
