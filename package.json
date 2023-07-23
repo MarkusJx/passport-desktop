@@ -80,7 +80,7 @@
         "trailingComma": "es5"
     },
     "optionalDependencies": {
-        "ms-passport-win32-x64-msvc": "0.1.0",
-        "ms-passport-win32-ia32-msvc": "0.1.0"
+        "ms-passport-win32-ia32-msvc": "0.1.0",
+        "ms-passport-win32-x64-msvc": "0.1.0"
     }
 }

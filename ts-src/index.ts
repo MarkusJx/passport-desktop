@@ -1,34 +1,34 @@
-import { createDummy } from './dummies';
+import { createDummy, DummyType } from './dummies';
 
 const KeyCreationOption = createDummy({
     key: 'KeyCreationOption',
     dummies: {
-        FailIfExists: 'getter',
-        ReplaceExisting: 'getter',
+        FailIfExists: DummyType.Getter,
+        ReplaceExisting: DummyType.Getter,
     },
 });
 
 const PublicKeyEncoding = createDummy({
     key: 'PublicKeyEncoding',
     dummies: {
-        X509SubjectPublicKeyInfo: 'getter',
-        BCryptPublicKey: 'getter',
-        Capi1PublicKey: 'getter',
-        BCryptEccFullPublicKey: 'getter',
-        Pkcs1RsaPublicKey: 'getter',
+        X509SubjectPublicKeyInfo: DummyType.Getter,
+        BCryptPublicKey: DummyType.Getter,
+        Capi1PublicKey: DummyType.Getter,
+        BCryptEccFullPublicKey: DummyType.Getter,
+        Pkcs1RsaPublicKey: DummyType.Getter,
     },
 });
 
 const VerificationResult = createDummy({
     key: 'VerificationResult',
     dummies: {
-        Canceled: 'getter',
-        DeviceBusy: 'getter',
-        DeviceNotPresent: 'getter',
-        DisabledByPolicy: 'getter',
-        NotConfiguredForUser: 'getter',
-        RetriesExhausted: 'getter',
-        Verified: 'getter',
+        Canceled: DummyType.Getter,
+        DeviceBusy: DummyType.Getter,
+        DeviceNotPresent: DummyType.Getter,
+        DisabledByPolicy: DummyType.Getter,
+        NotConfiguredForUser: DummyType.Getter,
+        RetriesExhausted: DummyType.Getter,
+        Verified: DummyType.Getter,
     },
 });
 
@@ -36,9 +36,12 @@ const Passport = createDummy({
     key: 'Passport',
     isClass: true,
     dummies: {
-        accountWithIdExists: 'function',
-        available: 'function',
-        requestVerification: 'function',
+        accountWithIdExists: DummyType.Function,
+        available: DummyType.Function,
+        requestVerification: DummyType.Function,
+    },
+    overrides: {
+        available: () => false,
     },
 });
 

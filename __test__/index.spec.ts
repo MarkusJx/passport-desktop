@@ -1,8 +1,18 @@
 import test from 'ava';
 
-import { KeyCreationOption, Passport, VerificationResult } from '../.';
+import {
+    KeyCreationOption,
+    Passport,
+    PublicKeyEncoding,
+    VerificationResult,
+} from '../.';
 import { createPublicKey, createVerify, randomBytes } from 'crypto';
 import isCi from 'is-ci';
+
+const MODULE_NOT_FOUND = {
+    code: 'MODULE_NOT_FOUND',
+    message: /^Cannot find module '.+'$/m,
+};
 
 test('available', (t) => {
     if (process.platform !== 'win32') {
@@ -57,18 +67,56 @@ test('sign and verify', async (t) => {
     t.false(Passport.accountWithIdExists('test'));
 });
 
-test('check exceptions', (t) => {
+test('check Passport exceptions on unix', (t) => {
     if (process.platform === 'win32') {
         t.pass('Skipping test on Windows');
         return;
     }
 
-    const MODULE_NOT_FOUND = {
-        code: 'MODULE_NOT_FOUND',
-        message: /^Cannot find module '.+'$/m,
-    };
-
     t.throws(() => new Passport('test'), MODULE_NOT_FOUND);
     t.throws(() => Passport.accountWithIdExists('test'), MODULE_NOT_FOUND);
     t.throws(() => Passport.requestVerification('test'), MODULE_NOT_FOUND);
+    t.notThrows(() => Passport.available());
+    t.false(Passport.available());
+});
+
+test('check KeyCreationOption exceptions on unix', (t) => {
+    if (process.platform === 'win32') {
+        t.pass('Skipping test on Windows');
+        return;
+    }
+
+    t.throws(() => KeyCreationOption.FailIfExists, MODULE_NOT_FOUND);
+    t.throws(() => KeyCreationOption.ReplaceExisting, MODULE_NOT_FOUND);
+});
+
+test('check PublicKeyEncoding exceptions on unix', (t) => {
+    if (process.platform === 'win32') {
+        t.pass('Skipping test on Windows');
+        return;
+    }
+
+    t.throws(
+        () => PublicKeyEncoding.X509SubjectPublicKeyInfo,
+        MODULE_NOT_FOUND
+    );
+    t.throws(() => PublicKeyEncoding.Pkcs1RsaPublicKey, MODULE_NOT_FOUND);
+    t.throws(() => PublicKeyEncoding.BCryptEccFullPublicKey, MODULE_NOT_FOUND);
+    t.throws(() => PublicKeyEncoding.BCryptPublicKey, MODULE_NOT_FOUND);
+    t.throws(() => PublicKeyEncoding.Capi1PublicKey, MODULE_NOT_FOUND);
+});
+
+test('check VerificationResult exceptions on unix', (t) => {
+    if (process.platform === 'win32') {
+        t.pass('Skipping test on Windows');
+        return;
+    }
+
+    t.throws(() => VerificationResult.Canceled, MODULE_NOT_FOUND);
+    t.throws(() => VerificationResult.Verified, MODULE_NOT_FOUND);
+    t.throws(() => VerificationResult.DeviceNotPresent, MODULE_NOT_FOUND);
+    t.throws(() => VerificationResult.NotConfiguredForUser, MODULE_NOT_FOUND);
+    t.throws(() => VerificationResult.DisabledByPolicy, MODULE_NOT_FOUND);
+    t.throws(() => VerificationResult.DeviceBusy, MODULE_NOT_FOUND);
+    t.throws(() => VerificationResult.RetriesExhausted, MODULE_NOT_FOUND);
 });

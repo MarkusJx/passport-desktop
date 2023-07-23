@@ -58,8 +58,6 @@ jobs:
                   node-version: 18.x
                   cache: 'npm'
                   architecture: ${{matrix.arch}}
-            - name: Rust Cache
-              uses: Swatinem/rust-cache@v2.5.1
             - name: Install Dependencies
               run: npm ci
             - uses: actions/download-artifact@v3

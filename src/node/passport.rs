@@ -268,6 +268,8 @@ impl Passport {
     #[napi]
     /// Whether the Passport API is available on the current platform
     /// and the current user has permission to use it.
+    /// This will return `false` on non-Windows platforms and if the
+    /// user does not have permission to use Windows Hello.
     ///
     /// @return Whether the Passport API is available.
     pub fn available() -> napi::Result<bool> {

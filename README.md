@@ -10,6 +10,10 @@ npm install ms-passport
 ```
 
 Pre-built binaries are available for windows 32/64 bit platforms.
+On other platforms, the module is obviously not available,
+importing it will **not** throw an error. Instead, all methods will
+throw an error when called, except for `Passport.available()` which
+will return `false`.
 
 ## Usage
 
