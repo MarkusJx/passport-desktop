@@ -14,25 +14,40 @@ const MODULE_NOT_FOUND = {
     message: /^Cannot find module '.+'$/m,
 };
 
-test('available', (t) => {
-    if (process.platform !== 'win32') {
-        t.pass('Skipping test on non-Windows');
-        return;
-    }
+const windowsTest = process.platform === 'win32' ? test : test.skip;
+const windowsLocalTest =
+    process.platform === 'win32' && !isCi ? test : test.skip;
+const unixTest = process.platform !== 'win32' ? test : test.skip;
 
+windowsTest('available', (t) => {
     t.notThrows(() => Passport.available());
     t.notThrows(() => Passport.accountWithIdExists('test'));
 });
 
-test('sign and verify', async (t) => {
-    if (isCi) {
-        t.pass('Skipping test in CI');
-        return;
-    } else if (process.platform !== 'win32') {
-        t.pass('Skipping test on non-Windows');
-        return;
-    }
+windowsTest('check KeyCreationOption exists on windows', (t) => {
+    t.notThrows(() => KeyCreationOption.FailIfExists);
+    t.notThrows(() => KeyCreationOption.ReplaceExisting);
+});
 
+windowsTest('check PublicKeyEncoding exists on windows', (t) => {
+    t.notThrows(() => PublicKeyEncoding.X509SubjectPublicKeyInfo);
+    t.notThrows(() => PublicKeyEncoding.Pkcs1RsaPublicKey);
+    t.notThrows(() => PublicKeyEncoding.BCryptEccFullPublicKey);
+    t.notThrows(() => PublicKeyEncoding.BCryptPublicKey);
+    t.notThrows(() => PublicKeyEncoding.Capi1PublicKey);
+});
+
+windowsTest('check VerificationResult exists on windows', (t) => {
+    t.notThrows(() => VerificationResult.Canceled);
+    t.notThrows(() => VerificationResult.Verified);
+    t.notThrows(() => VerificationResult.DeviceNotPresent);
+    t.notThrows(() => VerificationResult.NotConfiguredForUser);
+    t.notThrows(() => VerificationResult.DisabledByPolicy);
+    t.notThrows(() => VerificationResult.DeviceBusy);
+    t.notThrows(() => VerificationResult.RetriesExhausted);
+});
+
+windowsLocalTest('sign and verify', async (t) => {
     t.true(Passport.available());
 
     t.is(
@@ -67,12 +82,7 @@ test('sign and verify', async (t) => {
     t.false(Passport.accountWithIdExists('test'));
 });
 
-test('check Passport exceptions on unix', (t) => {
-    if (process.platform === 'win32') {
-        t.pass('Skipping test on Windows');
-        return;
-    }
-
+unixTest('check Passport exceptions on unix', (t) => {
     t.throws(() => new Passport('test'), MODULE_NOT_FOUND);
     t.throws(() => Passport.accountWithIdExists('test'), MODULE_NOT_FOUND);
     t.throws(() => Passport.requestVerification('test'), MODULE_NOT_FOUND);
@@ -80,22 +90,12 @@ test('check Passport exceptions on unix', (t) => {
     t.false(Passport.available());
 });
 
-test('check KeyCreationOption exceptions on unix', (t) => {
-    if (process.platform === 'win32') {
-        t.pass('Skipping test on Windows');
-        return;
-    }
-
+unixTest('check KeyCreationOption exceptions on unix', (t) => {
     t.throws(() => KeyCreationOption.FailIfExists, MODULE_NOT_FOUND);
     t.throws(() => KeyCreationOption.ReplaceExisting, MODULE_NOT_FOUND);
 });
 
-test('check PublicKeyEncoding exceptions on unix', (t) => {
-    if (process.platform === 'win32') {
-        t.pass('Skipping test on Windows');
-        return;
-    }
-
+unixTest('check PublicKeyEncoding exceptions on unix', (t) => {
     t.throws(
         () => PublicKeyEncoding.X509SubjectPublicKeyInfo,
         MODULE_NOT_FOUND
@@ -106,12 +106,7 @@ test('check PublicKeyEncoding exceptions on unix', (t) => {
     t.throws(() => PublicKeyEncoding.Capi1PublicKey, MODULE_NOT_FOUND);
 });
 
-test('check VerificationResult exceptions on unix', (t) => {
-    if (process.platform === 'win32') {
-        t.pass('Skipping test on Windows');
-        return;
-    }
-
+unixTest('check VerificationResult exceptions on unix', (t) => {
     t.throws(() => VerificationResult.Canceled, MODULE_NOT_FOUND);
     t.throws(() => VerificationResult.Verified, MODULE_NOT_FOUND);
     t.throws(() => VerificationResult.DeviceNotPresent, MODULE_NOT_FOUND);
