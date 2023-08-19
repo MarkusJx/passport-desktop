@@ -44,7 +44,7 @@ jobs:
               run: npm version --no-git-tag-version --allow-same-version ${{env.version}} -f
               working-directory: npm/${{matrix.package}}
             - name: Move binary
-              run: mv ms-passport.*.node npm/${{matrix.package}}
+              run: mv passport-desktop.*.node npm/${{matrix.package}}
               shell: bash
             - name: NPM Publish Binary
               uses: JS-DevTools/npm-publish@v2.2.1
