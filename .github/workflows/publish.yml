@@ -64,6 +64,7 @@ jobs:
 
     draft-release:
         needs: [build]
+        permissions: read-all
         runs-on: ubuntu-latest
         if: github.ref == 'refs/heads/master' && github.event.inputs.dry-run != 'true'
         steps:
