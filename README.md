@@ -3,6 +3,9 @@
 Windows Hello for client Applications in Node.js on Windows Platforms.
 This is a replacement for the [node-ms-passport](https://github.com/MarkusJx/node-ms-passport) module.
 
+This module's implementation was heavily inspired by the
+[desktop module of bitwarden](https://github.com/bitwarden/clients/tree/master/apps/desktop/desktop_native).
+
 ## Installation
 
 ```bash
