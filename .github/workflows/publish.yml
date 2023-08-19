@@ -48,7 +48,7 @@ jobs:
               shell: bash
             - name: NPM Publish Binary
               uses: JS-DevTools/npm-publish@v2.2.1
-              if: ${{!matrix.publish}}
+              # if: ${{!matrix.publish}}
               with:
                   access: public
                   token: ${{secrets.NPM_TOKEN}}
@@ -65,7 +65,7 @@ jobs:
     draft-release:
         needs: [build]
         runs-on: ubuntu-latest
-        if: github.ref == 'refs/heads/main' && github.event.inputs.dry-run != 'true'
+        if: github.ref == 'refs/heads/master' && github.event.inputs.dry-run != 'true'
         steps:
             - name: Checkout
               uses: actions/checkout@v3

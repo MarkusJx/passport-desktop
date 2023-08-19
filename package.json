@@ -1,6 +1,6 @@
 {
     "name": "passport-desktop",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "main": "dist/index.js",
     "types": "native.d.ts",
     "description": "A Node.js addon for enabling Client-side Windows Hello using Microsoft Passport",
