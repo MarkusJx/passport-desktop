@@ -105,24 +105,26 @@ function createDummy<Key extends IndexKeys, IsClass extends boolean>(
     }
 }
 
+type DummiesOption<Key extends IndexKeys> = Omit<
+    DummyOptions<Key, IndexTypes[Key] extends Constructor ? true : false>,
+    'key'
+>;
+
 type DummiesOptions = {
-    [key in IndexKeys]: Omit<
-        DummyOptions<key, IndexTypes[key] extends Constructor ? true : false>,
-        'key'
-    >;
+    [key in IndexKeys]: DummiesOption<key>;
 };
 
 export function createDummies(obj: DummiesOptions): Readonly<IndexTypes> {
     return Object.freeze(
-        (Object.keys(obj) as IndexKeys[]).reduce((prev, cur) => {
-            return {
+        (Object.keys(obj) as IndexKeys[]).reduce(
+            (prev, cur) => ({
                 ...prev,
-                // @ts-expect-error
                 [cur]: createDummy({
                     key: cur,
-                    ...obj[cur],
+                    ...(obj[cur] as DummiesOption<typeof cur>),
                 }),
-            };
-        }, {})
+            }),
+            {}
+        )
     ) as IndexTypes;
 }

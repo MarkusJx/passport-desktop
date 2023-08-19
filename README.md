@@ -1,4 +1,4 @@
-# ms-passport
+# passport-desktop
 
 Windows Hello for client Applications in Node.js on Windows Platforms.
 This is a replacement for the [node-ms-passport](https://github.com/MarkusJx/node-ms-passport) module.
@@ -6,7 +6,7 @@ This is a replacement for the [node-ms-passport](https://github.com/MarkusJx/nod
 ## Installation
 
 ```bash
-npm install ms-passport
+npm install passport-desktop
 ```
 
 Pre-built binaries are available for windows 32/64 bit platforms.
@@ -20,7 +20,7 @@ will return `false`.
 ### Check if Windows Hello is available
 
 ```ts
-import { Passport } from 'ms-passport';
+import { Passport } from 'passport-desktop';
 
 if (!Passport.available()) {
     throw new Error('Windows Hello is not available');
@@ -30,7 +30,7 @@ if (!Passport.available()) {
 ### Check if an Passport account with a given id exists
 
 ```ts
-import { Passport } from 'ms-passport';
+import { Passport } from 'passport-desktop';
 
 await Passport.accountWithIdExists('my-account-id'); // false, probably
 ```
@@ -38,7 +38,11 @@ await Passport.accountWithIdExists('my-account-id'); // false, probably
 ### Create a new Passport account and sign a challenge
 
 ```ts
-import { Passport, PublicKeyEncoding, KeyCreationOption } from 'ms-passport';
+import {
+    Passport,
+    PublicKeyEncoding,
+    KeyCreationOption,
+} from 'passport-desktop';
 import { randomBytes, createPublicKey, createVerify } from 'node:crypto';
 
 const passport = new Passport('my-account-id');

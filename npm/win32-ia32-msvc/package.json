@@ -1,5 +1,5 @@
 {
-    "name": "ms-passport-win32-ia32-msvc",
+    "name": "passport-desktop-win32-ia32-msvc",
     "version": "0.1.0",
     "os": [
         "win32"
@@ -7,9 +7,9 @@
     "cpu": [
         "ia32"
     ],
-    "main": "ms-passport.win32-ia32-msvc.node",
+    "main": "passport-desktop.win32-ia32-msvc.node",
     "files": [
-        "ms-passport.win32-ia32-msvc.node"
+        "passport-desktop.win32-ia32-msvc.node"
     ],
     "license": "MIT",
     "engines": {
