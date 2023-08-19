@@ -20,7 +20,7 @@ use windows::Security::Cryptography::Core::CryptographicPublicKeyBlobType;
 ///
 /// # Example
 /// ```ts
-/// import { Passport, PublicKeyEncoding, KeyCreationOption } from 'ms-passport';
+/// import { Passport, PublicKeyEncoding, KeyCreationOption } from 'passport-desktop';
 /// import { randomBytes, createPublicKey, createVerify } from 'node:crypto';
 ///
 /// if (!Passport.available()) {
@@ -70,7 +70,7 @@ impl Passport {
     ///
     /// # Example
     /// ```ts
-    /// import { Passport } from 'ms-passport';
+    /// import { Passport } from 'passport-desktop';
     ///
     /// const passport = new Passport('my-account-id');
     /// ```
@@ -91,7 +91,7 @@ impl Passport {
     ///
     /// # Example
     /// ```ts
-    /// import { Passport, KeyCreationOption } from 'ms-passport';
+    /// import { Passport, KeyCreationOption } from 'passport-desktop';
     ///
     /// const passport = new Passport('my-account-id');
     /// await passport.createAccount(KeyCreationOption.FailIfExists);
@@ -127,7 +127,7 @@ impl Passport {
     ///
     /// # Example
     /// ```ts
-    /// import { Passport, PublicKeyEncoding } from 'ms-passport';
+    /// import { Passport, PublicKeyEncoding } from 'passport-desktop';
     /// import { randomBytes, createPublicKey, createVerify } from 'node:crypto';
     ///
     /// const passport = new Passport('my-account-id');
@@ -209,7 +209,7 @@ impl Passport {
     ///
     /// # Example
     /// ```ts
-    /// import { Passport, PublicKeyEncoding } from 'ms-passport';
+    /// import { Passport, PublicKeyEncoding } from 'passport-desktop';
     /// import { createPublicKey } from 'node:crypto';
     ///
     /// const passport = new Passport('my-account-id');
@@ -308,7 +308,7 @@ impl Passport {
     ///
     /// # Example
     /// ```ts
-    /// import { Passport, VerificationResult } from 'ms-passport';
+    /// import { Passport, VerificationResult } from 'passport-desktop';
     ///
     /// const result = await Passport.requestVerification('Please verify your identity');
     /// if (result === VerificationResult.Verified) {
