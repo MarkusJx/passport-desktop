@@ -7,14 +7,14 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-napi = { version = "2.13.2", default-features = false, features = ["napi4", "napi6", "tokio_rt"] }
+napi = { version = "2.13.3", default-features = false, features = ["napi4", "napi6", "tokio_rt"] }
 napi-derive = "2.13.0"
-tokio = "1.29.1"
+tokio = "1.32.0"
 futures = "0.3.28"
 
 [target.'cfg(windows)'.dependencies]
 widestring = "1.0.2"
-windows = { version = "0.48.0", features = [
+windows = { version = "0.51.1", features = [
     "Foundation",
     "Security_Credentials_UI",
     "Security_Cryptography",

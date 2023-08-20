@@ -54,6 +54,7 @@ jobs:
                   token: ${{secrets.NPM_TOKEN}}
                   package: npm/${{matrix.package}}/package.json
                   dry-run: ${{github.event.inputs.dry-run == 'true'}}
+                  ignore-scripts: false
             - name: NPM Publish
               uses: JS-DevTools/npm-publish@v2.2.1
               if: ${{matrix.publish}}
