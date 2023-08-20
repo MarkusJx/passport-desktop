@@ -48,7 +48,7 @@ jobs:
               shell: bash
             - name: NPM Publish Binary
               uses: JS-DevTools/npm-publish@v2.2.1
-              # if: ${{!matrix.publish}}
+              if: ${{!matrix.publish}}
               with:
                   access: public
                   token: ${{secrets.NPM_TOKEN}}
@@ -61,10 +61,11 @@ jobs:
                   access: public
                   token: ${{secrets.NPM_TOKEN}}
                   dry-run: ${{github.event.inputs.dry-run == 'true'}}
+                  ignore-scripts: false
 
     draft-release:
         needs: [build]
-        permissions: read-all
+        permissions: write-all
         runs-on: ubuntu-latest
         if: github.ref == 'refs/heads/master' && github.event.inputs.dry-run != 'true'
         steps:
