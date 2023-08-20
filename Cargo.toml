@@ -7,7 +7,12 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-napi = { version = "2.13.3", default-features = false, features = ["napi4", "napi6", "tokio_rt"] }
+napi = { version = "2.13.3", default-features = false, features = [
+    "napi4",
+    "napi6",
+    "tokio_rt",
+    "deferred_trace"
+] }
 napi-derive = "2.13.0"
 tokio = "1.32.0"
 futures = "0.3.28"
